@@ -67,6 +67,7 @@ public class SpotifyRepository {
       Album album=new Album(title);
       albums.add(album);
 
+      artistAlbumMap.get(artist).add(album);
       albumSongMap.put(album,new ArrayList<>());
 
       return album;
@@ -85,6 +86,7 @@ public class SpotifyRepository {
            throw new Exception("Album does not exist");
        }
        Song song=new Song(title,length);
+       song.setLikes(0);
        songs.add(song);
 
        albumSongMap.get(album).add(song);
@@ -120,7 +122,7 @@ public class SpotifyRepository {
 
         playlistListenerMap.get(playlist).add(user);   //current listener of the playlist
         creatorPlaylistMap.put(user,playlist);         //creator of the playlist
-        userPlaylistMap.get(playlist).add(playlist);   //user and his list of playlist
+        userPlaylistMap.get(user).add(playlist);   //user and his list of playlist
 
 
         return playlist;
@@ -152,7 +154,7 @@ public class SpotifyRepository {
 
         playlistListenerMap.get(playlist).add(user);   //current listener of the playlist
         creatorPlaylistMap.put(user,playlist);         //creator of the playlist
-        userPlaylistMap.get(playlist).add(playlist);   //user and his list of playlist
+        userPlaylistMap.get(user).add(playlist);   //user and his list of playlist
 
 
         return playlist;
@@ -179,7 +181,9 @@ public class SpotifyRepository {
         if(playlist == null)
             throw new Exception("Playlist does not exist");
 
-        if(creatorPlaylistMap.get(user) == playlist || playlistListenerMap.get(playlist).contains(user)){
+        if(creatorPlaylistMap.containsKey(user) && creatorPlaylistMap.get(user) == playlist ||
+                playlistListenerMap.get(playlist).contains(user)){
+
             return playlist;
         }
         playlistListenerMap.get(playlist).add(user);
