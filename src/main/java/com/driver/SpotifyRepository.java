@@ -188,6 +188,11 @@ public class SpotifyRepository {
         }
         playlistListenerMap.get(playlist).add(user);
 
+        if(!userPlaylistMap.get(user).contains(playlist)){
+            userPlaylistMap.get(user).add(playlist);
+        }
+
+
         return playlist;
     }
 
